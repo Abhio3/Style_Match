@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>StyleMatch - Login/Signup</title>
+  <style>* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  body, html {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+  }
+  h2 {
+    text-align: center;
+  }
+  
+  .container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+  }
+  
+  .left-pane {
+    width: 30%;
+    background-color: #000;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .logo {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 10px;
+  }
+  
+  .brand-text {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .sub-text {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .description {
+    font-size: 13px;
+    text-align: center;
+    line-height: 1.4;
+  }
+  
+  .right-pane {
+    width: 70%;
+    background: url('image.png') no-repeat center center;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  
+  /* Glassmorphism Effect */
+  .form-box {
+    background: rgba(255, 255, 255, 0.1); 
+    backdrop-filter: blur(12px);          
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 20px;
+    padding: 40px;
+    color: #fff;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    text-align: center;
+  }
+  
+  /* .tabs {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .tab {
+    cursor: pointer;
+    background-color: #444;
+    padding: 10px 15px;
+    border-radius: 20px;
+    color: #fff;
+    font-weight: bold;
+    font-size: 13px;
+    transition: background 0.3s;
+  }
+  
+  .tab:hover {
+    background-color: #222;
+  } */
+  
+  .form-section {
+    display: none;
+    flex-direction: column;
+  }
+  
+  input, select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+  }
+  
+  button {
+    width: 100%;
+    padding: 10px;
+    background-color: #000;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .link {
+    color: #00aaff;
+    cursor: pointer;
+    font-size: 13px;
+    display: inline-block;
+    margin-top: 5px;
+  }
+  
+  .text-center {
+    text-align: center;
+    font-size: 13px;
+    margin-top: 10px;
+  }
+  
+  .info {
+    font-size: 13px;
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+  
+  .tagline {
+    margin-top: 15px;
+    font-size: 13px;
+    text-align: center;
+    color: #eee;
+  }
+  @media screen and (max-width: 1024px) {
+    .container {
+      flex-direction: column;
+      height: auto;
+    }
+  
+    .left-pane,
+    .right-pane {
+      width: 100%;
+      height: auto;
+      padding: 30px 20px;
+    }
+  
+    .left-pane {
+      align-items: center;
+    }
+  
+    .form-box {
+      max-width: 90%;
+      margin: auto;
+    }
+  
+    .logo {
+      width: 50px;
+      height: 50px;
+    }
+  }
+  
+  /* For mobile devices (up to 600px wide) */
+  @media screen and (max-width: 600px) {
+    .container {
+      flex-direction: column;
+      height: auto;
+    }
+  
+    .left-pane,
+    .right-pane {
+      width: 100%;
+      height: auto;
+      padding: 20px;
+    }
+  
+    .brand-text {
+      font-size: 20px;
+    }
+  
+    .sub-text {
+      font-size: 12px;
+    }
+  
+    .description {
+      font-size: 12px;
+    }
+  
+    .form-box {
+      padding: 20px;
+      font-size: 14px;
+    }
+  
+    input, select, button {
+      font-size: 14px;
+      padding: 8px;
+    }
+  
+    .tagline {
+      font-size: 12px;
+    }
+  }
+  
+  /* For large screens / Smart TVs (over 1440px) */
+  @media screen and (min-width: 1440px) {
+    .logo {
+      width: 100px;
+      height: 100px;
+    }
+  
+    .brand-text {
+      font-size: 32px;
+    }
+  
+    .sub-text {
+      font-size: 18px;
+    }
+  
+    .description {
+      font-size: 16px;
+    }
+  
+    .form-box {
+      max-width: 500px;
+      padding: 60px;
+      font-size: 18px;
+    }
+  
+    input, select, button {
+      font-size: 18px;
+      padding: 15px;
+    }
+  
+    .tagline {
+      font-size: 16px;
+    }
+  }
+  
+  /* Radio control for forms */
+  #loginView:checked ~ .form-box .login,
+  #signupView:checked ~ .form-box .signup,
+  #forgotView:checked ~ .form-box .forgot {
+    display: flex;
+  }
+  
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="left-pane">
+      <img src="logo.png" alt="Logo" class="logo"/>
+      <div class="brand-text">STYLEMATCH</div>
+      <div class="sub-text">UNISEX SALON</div>
+      <div class="description">
+        Your gateway to premium beauty and grooming services.
+      </div>
+    </div>
+
+    <div class="right-pane">
+      <input type="radio" name="view" id="loginView" checked hidden>
+      <input type="radio" name="view" id="signupView" hidden>
+      <input type="radio" name="view" id="forgotView" hidden>
+
+      <div class="form-box">
+        <!-- Tabs -->
+        <!-- <div class="tabs">
+          <label for="loginView" class="tab">Login</label>
+          <label for="signupView" class="tab">Sign Up</label>
+          <label for="forgotView" class="tab">Forgot</label>
+        </div> -->
+
+        <!-- Login Form -->
+        <div class="form-section login">
+          <h2>LOGIN</h2>
+          <input type="email" placeholder="Email">
+          <input type="password" placeholder="Password">
+          <label for="forgotView" class="link">Forgot Password?</label>
+          <button>LOGIN</button>
+          <p class="text-center">Don't have an account? <label for="signupView" class="link">Sign Up Now</label></p>
+        </div>
+
+        <!-- Signup Form -->
+        <div class="form-section signup">
+          <h2>SIGN UP</h2>
+          <input type="text" placeholder="Name">
+          <input type="email" placeholder="Email">
+          <select>
+            <option value="">Select Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>
+          
+          <input type="password" placeholder="New Password">
+          <input type="password" placeholder="Confirm Password">
+          <button>SIGN UP</button>
+          <p class="text-center">Already have an account? <label for="loginView" class="link">Login</label></p>
+        </div>
+
+        <!-- Forgot Password Form -->
+        <div class="form-section forgot">
+          <h2>Reset Password</h2>
+          <p class="info">Enter your email to receive a reset link. For help, <a href="mailto:support@hairloom.com">send us an email</a>.</p>
+          <input type="email" placeholder="Enter Your Email ID Here">
+          <button>Send reset link</button>
+          <p class="text-center"><label for="loginView" class="link">← All login options</label></p>
+        </div>
+
+        <div class="text-center tagline">Your beauty journey begins here!</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bridal Service</title>
+<style>
+    body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f7f3ef;
+}
+
+.container {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.header {
+  text-align: center;
+  background-color: #ecd3b3;
+  padding: 20px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 2rem;
+  letter-spacing: 2px;
+}
+
+.header p {
+  margin-top: 10px;
+  font-style: italic;
+  color: #444;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: calc(100vh - 160px);
+  padding: 0 50px;
+  position: relative;
+}
+.content2 {
+  background-color: #ecd3b3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: calc(100vh - 160px);
+  padding: 0 50px;
+  position: relative;
+}
+
+.left-pane, .right-pane {
+  width: 45%;
+  opacity: 0;
+  transition: transform 2s ease, opacity 2s ease;
+  position: relative;
+}
+
+.left-pane img {
+  width: 100%;
+  height:500px;
+  border-radius: 10px;
+}
+
+.right-pane {
+  text-align: left;
+}
+
+.right-pane h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.right-pane p {
+  font-size: 1rem;
+  color: #444;
+  margin-bottom: 20px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #d4af7f;
+  color: #000;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+button:hover {
+  background-color: #c49b6b; /* slightly darker shade */
+  transition: background-color 0.3s ease;
+}
+
+.hidden {
+  transform: translateX(100%);
+}
+
+.left-pane.show {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.right-pane.show {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.left-pane.hidden {
+  transform: translateX(-100%);
+}
+
+.right-pane.hidden {
+  transform: translateX(100%);
+}
+
+/* Tablet (768px and below) */
+
+
+.brand-partners-section {
+  background-color: #f7f3ef;
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.brand-title {
+  font-size: 1.8rem;
+  letter-spacing: 2px;
+  border-bottom: 2px solid #000;
+  display: inline-block;
+  margin-bottom: 40px;
+}
+
+.brand-logos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 80px;
+  flex-wrap: wrap;
+}
+
+.brand-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.brand-item img {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 15px;
+  border: 2px solid #d4af7f;
+}
+
+.brand-item p {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+@media screen and (max-width: 1024px) {
+  .content, .content2 {
+    flex-direction: column;
+    height: auto;
+    padding: 20px;
+  }
+
+  .left-pane, .right-pane {
+    width: 100%;
+    transform: translateY(20px);
+    text-align: center;
+  }
+
+  .left-pane img {
+    height: auto;
+    max-width: 90%;
+    margin: auto;
+  }
+
+  .brand-logos {
+    gap: 40px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .header h1 {
+    font-size: 1.8rem;
+  }
+
+  .header p {
+    font-size: 0.9rem;
+    padding: 0 10px;
+  }
+
+  .right-pane h2 {
+    font-size: 1.3rem;
+  }
+
+  .right-pane p {
+    font-size: 0.95rem;
+  }
+
+  button {
+    padding: 8px 16px;
+    font-size: 0.95rem;
+  }
+
+  .brand-item img {
+    width: 120px;
+    height: 120px;
+  }
+
+  footer div h4 {
+    font-size: 1rem;
+  }
+
+  footer div p {
+    font-size: 0.85rem;
+  }
+
+  footer {
+    padding: 30px 15px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .header h1 {
+    font-size: 1.5rem;
+  }
+
+  .header p {
+    font-size: 0.85rem;
+  }
+
+  .content, .content2 {
+    padding: 10px;
+  }
+
+  .right-pane h2 {
+    font-size: 1.2rem;
+  }
+
+  .right-pane p {
+    font-size: 0.9rem;
+  }
+
+  .brand-logos {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .brand-item img {
+    width: 100px;
+    height: 100px;
+  }
+
+  footer div {
+    width: 100%;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  footer div:last-child {
+    text-align: center;
+  }
+
+  footer img {
+    width: 60px;
+    height: 60px;
+  }
+
+  footer p {
+    font-size: 0.8rem;
+  }
+}
+
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>BRIDAL SERVICE</h1>
+      <p>"EXPERIENCE THE MAGIC OF OUR EXCLUSIVE BRIDAL SERVICES, DESIGNED TO MAKE YOUR SPECIAL DAY TRULY UNFORGETTABLE"</p>
+    </div>
+
+    <div class="content">
+      <div class="left-pane hidden" id="leftPane">
+        <img src="bridal-left.png" alt="Bridal Makeup" />
+      </div>
+      <div class="right-pane hidden" id="rightPane">
+        <h2>TRIAL MAKEUP SERVICE</h2>
+        <p>
+          "Discover your dream bridal look with our Bridal Makeup Trial Service! Work with our expert artists to explore different styles, match your preferences and perfect the makeup for your big day. Using premium products and personalized techniques, we ensure your trial leaves you confident, glowing, and excited for your wedding look."
+        </p>
+        <button onclick="location.href='BridalServiceAppointment.html'">BOOK YOUR SLOT</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- After TRIAL MAKEUP SERVICE -->
+  <div class="content2">
+    <div class="right-pane hidden" id="preRightPane">
+      <h2>PRE-WEDDING MAKEUP SERVICE</h2>
+      <p>
+        "Prepare for your big day with our Pre-Wedding Makeup Service, designed to give you a radiant, flawless glow. This service includes deep cleansing, skin brightening, and customized skincare treatments to ensure your makeup sits perfectly on your skin. Let us help you achieve a naturally beautiful canvas for your wedding day look!"
+      </p>
+      <button onclick="location.href='BridalServiceAppointment.html'">BOOK YOU SLOT</button>
+    </div>
+    <div class="left-pane hidden" id="preLeftPane">
+      <img src="pre-bridal-right.png" alt="Pre Bridal Makeup" />
+    </div>
+  </div>
+
+  <!-- Mehandi Service Section -->
+  <div class="content">
+    <div class="left-pane hidden" id="mehndiLeftPane">
+      <img src="mehandi-left.png" alt="Mehandi Service" />
+    </div>
+    <div class="right-pane hidden" id="mehndiRightPane">
+      <h2>MEHANDI SERVICE</h2>
+      <p>
+        "Enhance your special occasions with our Mehandi Service, offering intricate and stunning henna designs crafted by skilled artists. From traditional bridal patterns to modern styles, we ensure every design is unique and complements your celebration, leaving a lasting impression of beauty and tradition."
+      </p>
+      <button onclick="location.href='BridalServiceAppointment.html'">BOOK YOU SLOT</button>
+    </div>
+  </div>
+  <!-- Brand Partners Section -->
+<div class="brand-partners-section">
+    <h2 class="brand-title">OUR BRAND PARTNERS</h2>
+    <div class="brand-logos">
+      <div class="brand-item">
+        <img src="glitter-box.png" alt="The Glitter Box" />
+        <p>THE GLITTER BOX</p>
+      </div>
+      <div class="brand-item">
+        <img src="veiluxe.png" alt="Veiluxe" />
+        <p>VEILUXE</p>
+      </div>
+    </div>
+  </div>
+  <footer style="padding: 40px 20px; border-top: 1px solid #ccc; font-size: 0.9rem; color: #555;">
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; max-width: 1000px; margin: auto;">
+      <div>
+        <h4>Company</h4>
+        <p>Home<br>Blog<br>About Us<br>Franchise<br>Privacy Policy</p>
+      </div>
+      <div>
+        <h4>Our Services</h4>
+        <p>Events<br>Hair Care<br>Skin Care<br>Body Care</p>
+      </div>
+      <div>
+        <h4>Contact Us</h4>
+        <p>
+          Phone Number: +91 (996)-273-4416<br>
+          Location: 10,PT Rajan Rd,Sector 1,KK Nagar,Chennai,Tamil Nadu
+        </p>
+      </div>
+      <div style="text-align: right;">
+        <h4>Thanks for choosing</h4>
+        <p style="font-weight: bold; font-size: 1.1rem;">StyleMatch</p>
+        <div>
+            <img style="
+            width: 70px;
+            height: 70px;
+            margin-right: 10px;
+            filter: brightness(0) invert(0);
+          " src="logo.png" alt="logo">
+          
+        </div>
+      </div>
+    </div>
+    <p style="text-align: center; margin-top: 30px;">Copyright © 2025.StyleMatch.Love. All Rights Reserved</p>
+  </footer>
+  
+  
+  
+
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => {
+    document.getElementById('leftPane').classList.remove('hidden');
+    document.getElementById('leftPane').classList.add('show');
+    document.getElementById('rightPane').classList.remove('hidden');
+    document.getElementById('rightPane').classList.add('show');
+  }, 1000);
+setTimeout(() => {
+    document.getElementById('preLeftPane').classList.remove('hidden');
+    document.getElementById('preLeftPane').classList.add('show');
+    document.getElementById('preRightPane').classList.remove('hidden');
+    document.getElementById('preRightPane').classList.add('show');
+  }, 2000); // Delay second animation after 2 seconds
+});
+
+setTimeout(() => {
+  document.getElementById('mehndiLeftPane').classList.remove('hidden');
+  document.getElementById('mehndiLeftPane').classList.add('show');
+  document.getElementById('mehndiRightPane').classList.remove('hidden');
+  document.getElementById('mehndiRightPane').classList.add('show');
+}, 3000); 
+  </script>
+</body>
+</html>
