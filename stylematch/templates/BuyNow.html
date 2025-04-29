@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Face Cream Promotion</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #fdfdfd;
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    .banner {
+      position: relative;
+      text-align: left;
+      height: 450px;
+      overflow: hidden;
+    }
+
+    .banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .offer {
+      position: absolute;
+      top: 30px;
+      left: 30px;
+      background: #ccff33;
+      padding: 10px 18px;
+      font-weight: bold;
+      font-size: 18px;
+      color: #000;
+      border-radius: 4px;
+    }
+
+    .cream-section {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 60px 10%;
+      flex-wrap: wrap;
+    }
+
+    .cream-text {
+      flex: 1;
+      max-width: 600px;
+      padding-right: 40px;
+    }
+
+    .cream-text p {
+      font-size: 24px;
+      margin-bottom: 30px;
+    }
+
+    .product-image {
+  flex: 1.2;
+  max-width: 600px;
+}
+
+.product-image img {
+  width: 100%;
+  display: block;
+}
+
+    .buy-button {
+      background: transparent;
+      border: 2px solid #333;
+      padding: 14px 28px;
+      font-size: 20px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .buy-button:hover {
+      background: #333;
+      color: #fff;
+    }
+
+    @media (max-width: 768px) {
+      .cream-section {
+        flex-direction: column;
+        padding: 40px 20px;
+        text-align: center;
+      }
+
+      .cream-text {
+        padding: 0;
+        max-width: 100%;
+      }
+
+      .product-image {
+        max-width: 100%;
+        margin-top: 30px;
+      }
+    }
+    .product-feature {
+  margin: 0;
+  font-family: sans-serif;
+  background: #f4f4f4;
+  text-align: center;
+  padding: 60px 10%;
+}
+
+.product-feature h1 {
+  font-size: 40px;
+  letter-spacing: 4px;
+  margin-bottom: 50px; /* reduced from 60px to 30px */
+  font-family: 'Georgia', serif;
+  color: #333;
+}
+
+.feature-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 70vh; /* reduced from 100vh to 70vh */
+}
+
+
+.feature {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.left-part, .right-part {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.left-part {
+  transform: translateX(-100%);
+  transition: transform 0.8s ease;
+}
+
+.right-part {
+  transform: translateX(100%);
+  transition: transform 0.8s ease;
+}
+
+.feature.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.feature.active .left-part {
+  transform: translateX(0);
+}
+
+.feature.active .right-part {
+  transform: translateX(0);
+}
+
+.feature-circle {
+  width: 480px;
+  height: 480px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid #ccc;
+  margin-bottom: 20px;
+}
+
+.feature-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.feature h3 {
+  color: #007bff;
+  font-weight: bold;
+  font-size: 26px;
+  margin-bottom: 12px;
+}
+
+.feature p {
+  color: #666;
+  font-size: 18px;
+  max-width: 400px;
+}
+@media (max-width: 768px) {
+  .feature-container {
+    height: 500px;
+  }
+  .feature-circle {
+    width: 180px;
+    height: 180px;
+  }
+}
+.how-to-use {
+  background: #f9f4ef;
+  padding: 50px 0;
+  text-align: center;
+}
+
+.how-to-use h1 {
+  font-size: 36px;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.how-to-container {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.how-to-track {
+  display: flex;
+  animation: scrollLeft 20s linear infinite;
+}
+
+.how-to-item {
+  flex: 0 0 auto;
+  width: 220px;
+  margin: 0 20px;
+  text-align: center;
+}
+
+.how-to-item img {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.how-to-item p {
+  font-size: 16px;
+  color: #555;
+}
+
+@keyframes scrollLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+
+  </style>
+</head>
+<body>
+
+  <div class="banner">
+    <div class="offer">20% Offer</div>
+    <img id="slideshow" src="filter1.png" alt="Face Cream Banner">
+  </div>
+
+  <div class="cream-section">
+    <div class="cream-text">
+      <p>"Glow naturally with StyleMatch Natural Face Cream your skin's new best friend!"</p>
+      <button class="buy-button"onclick="location.href='orderProduct.html'" >BUY NOW</button>
+    </div>
+    <div class="product-image">
+      <img src="facecream2.png" alt="Face Cream Product">
+    </div>
+  </div>
+  <section class="product-feature">
+    <h1>PRODUCT FEATURES</h1>
+  <div class="feature-container">
+    <div class="feature" id="feature1">
+      <div class="left-part">      <div class="feature-circle"><img src="feature1.png" alt="Left Feature 1"></div></div>
+      <div class="right-part">  <h3>Deep Hydration</h3>
+        <p>Keeps your skin moisturized all day.</p></div>
+    </div>
+    <div class="feature" id="feature2">
+      <div class="left-part">      <h3>Brightening Formula</h3>
+        <p>Reduces dark spots and evens out skin tone.</p></div>
+      <div class="right-part"> <div class="feature-circle"><img src="feature2.png" alt="Right Feature 2"></div></div>
+    </div>
+    <div class="feature" id="feature3">
+      <div class="left-part"> <div class="feature-circle"><img src="feature3.png" alt="Left Feature 3"></div></div>
+      <div class="right-part"><h3 >Natural Ingredients</h3>
+        <p>Enriched with aloe vera, vitamin C, and antioxidants.</p></div>
+    </div>
+    <div class="feature" id="feature4">
+      <div class="left-part"><h3>Lightweight Texture</h3>
+        <p>Non-greasy and quickly absorbed.</p></div>
+      <div class="right-part"> <div class="feature-circle"><img src="feature4.png" alt="Right Feature 4"></div></div>
+    </div>
+    <div class="feature" id="feature5">
+      <div class="left-part"> <div class="feature-circle"><img src="feature5.png" alt="Left Feature 5"></div></div>
+      <div class="right-part">      <h3>Dermatologically tested</h3>
+        <p>Safe for all skin types.</p></div>
+    </div>
+  </div>
+</section>
+<section class="how-to-use">
+  <h1>HOW TO USE</h1>
+  <div class="how-to-container">
+    <div class="how-to-track">
+      <div class="how-to-item">
+        <img src="howto1.png" alt="Take a Small Amount">
+        <p>1.Take a Small Amount</p>
+      </div>
+      <div class="how-to-item">
+        <img src="howto2.png" alt="Apply Gently">
+        <p>2.Apply Gently</p>
+      </div>
+      <div class="how-to-item">
+        <img src="howto3.png" alt="Apply Evenly">
+        <p>3.Apply Evenly</p>
+      </div>
+      <div class="how-to-item">
+        <img src="howto4.png" alt="Use Daily">
+        <p>4.Use daily for best results</p>
+      </div>
+      <div class="how-to-item">
+        <img src="howto5.png" alt="Cleanse your face">
+        <p>5.Cleanse your face</p>
+      </div>
+
+      <!-- Duplicate once for seamless loop -->
+      <div class="how-to-item">
+        <img src="howto1.png" alt="Take a Small Amount">
+        <p>1.Take a Small Amount</p>
+      </div>
+      <div class="how-to-item">
+        <img src="howto2.png" alt="Apply Gently">
+        <p>2.Apply Gently</p>
+      </div>
+      <div class="how-to-item">
+        <img src="howto3.png" alt="Apply Evenly">
+        <p>3.Apply Evenly</p>
+      </div>
+      <div class="how-to-item">
+        <img src="howto4.png" alt="Use Daily">
+        <p>4.Use daily for best results</p>
+      </div>
+      <div class="how-to-item">
+        <img src="howto5.png" alt="Cleanse your face">
+        <p>5.Cleanse your face</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<script>
+  let features = document.querySelectorAll('.feature');
+  let current = 0;
+
+  function showNextFeature() {
+    // Hide all
+    features.forEach(f => f.classList.remove('active'));
+
+    // Show current
+    features[current].classList.add('active');
+
+    // Move to next
+    current = (current + 1) % features.length;
+  }
+
+  // Initial display
+  showNextFeature();
+  setInterval(showNextFeature, 2000);
+</script>
+  
+
+  <script>
+    const images = [
+      "filter1.png",
+      "filter2.png",
+      "filter3.png"
+    ];
+
+    let index = 0;
+    const slideshow = document.getElementById("slideshow");
+
+    // Set the first image immediately
+    slideshow.src = images[index];
+
+    // Start the slideshow after 2 seconds
+    setTimeout(() => {
+      setInterval(() => {
+        index = (index + 1) % images.length;
+        slideshow.src = images[index];
+      }, 2000);
+    }, 2000);
+  </script>
+
+</body>
+  <!-- Footer -->
+  <footer style="padding: 40px 20px; border-top: 1px solid #ccc; font-size: 0.9rem; color: #555;">
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; max-width: 1000px; margin: auto;">
+      <div>
+        <h4>Company</h4>
+        <p>Home<br>Blog<br>About Us<br>Franchise<br>Privacy Policy</p>
+      </div>
+      <div>
+        <h4>Our Services</h4>
+        <p>Events<br>Hair Care<br>Skin Care<br>Body Care</p>
+      </div>
+      <div>
+        <h4>Contact Us</h4>
+        <p>
+          Phone Number: +91 (996)-273-4416<br>
+          Location: 10,PT Rajan Rd,Sector 1,KK Nagar,Chennai,Tamil Nadu
+        </p>
+      </div>
+      <div style="text-align: right;">
+        <h4>Thanks for choosing</h4>
+        <p style="font-weight: bold; font-size: 1.1rem;">StyleMatch</p>
+        <div>
+          <img style="width: 70px; height: 70px; margin-right: 10px; filter: brightness(0) invert(0);" src="logo.png" alt="logo">
+        </div>
+      </div>
+    </div>
+    <p style="text-align: center; margin-top: 30px;">Copyright © 2025. StyleMatch. Love. All Rights Reserved</p>
+  </footer>
+</html>

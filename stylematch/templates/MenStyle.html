@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Men's Hairstyle Services</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9f0dc;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      padding: 20px;
+      font-size: 2.8rem;
+      color: white;
+      background-color: #000;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-weight: 300;
+      font-size: 24px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+      padding: 50px;
+      align-items: center;
+    }
+
+    .circle {
+      width: 100%;
+      max-width: 600px;
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.7);
+      padding: 2rem;
+      margin: 0 auto;
+      box-sizing: border-box;
+      text-align: center;
+    }
+
+    .circle h2 {
+      text-transform: uppercase;
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .circle ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: 1.1rem;
+    }
+
+    .circle li {
+      margin-bottom: 0.5rem;
+    }
+
+    .text-block {
+      font-size: 1.1rem;
+      line-height: 1.8;
+    }
+
+    strong {
+      font-weight: bold;
+    }
+
+    small {
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    .book-slot-btn {
+      padding: 10px 20px;
+      font-size: 1rem;
+      border: 1px solid #333;
+      background: transparent;
+      cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .book-slot-btn:hover {
+      background-color: #333;
+      color: #fff;
+    }
+
+    @media (max-width: 900px) {
+      .container {
+        grid-template-columns: 1fr;
+        padding: 30px;
+      }
+
+      .circle {
+        max-width: 400px;
+        padding: 1.5rem;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .circle {
+        max-width: 300px;
+        padding: 1rem;
+      }
+
+      .circle ul {
+        font-size: 1rem;
+      }
+
+      .circle h2 {
+        font-size: 1.3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div style="background-color: #000; color: #fff;">
+    <h1>Men's Style</h1>
+  </div>
+
+  <!-- Catalog Section -->
+  <div class="container">
+    <div class="circle" style="background-image: url('mencatalog_image.png');">
+      <h2>Catalog</h2>
+      <ul>
+        <li>CLASSIC HAIRCUT – ₹1707.80</li>
+        <li>FADE/UNDERCUT – ₹2134.75</li>
+        <li>CREW CUT – ₹1537.02</li>
+        <li>POMPADOUR STYLE – ₹2561.70</li>
+        <li>TEXTURED CROP – ₹1878.58</li>
+        <li>QUIFF STYLE – ₹2390.92</li>
+        <li>BUZZ CUT – ₹1280.85</li>
+        <li>MESSY/LAYERED LOOK – ₹2134.75</li>
+        <li>LONG HAIR STYLING – ₹2988.65</li>
+        <li>CURLY HAIR STYLING – ₹2561.70</li>
+        <li>BEARD TRIM & STYLING – ₹1280.85</li>
+      </ul>
+    </div>
+    <div class="text-block">
+      <p><strong>Our Men's Hairstyle Catalog</strong> offers a range of stylish cuts, from classic to trendy, tailored to suit every personality. Explore our professional grooming services and premium styling options to elevate your look.</p>
+    </div>
+  </div>
+
+  <!-- Combo Packs Section -->
+  <div class="container">
+    <div class="text-block">
+      <p><strong>Our Combo Packs</strong> are designed to offer the best value with a combination of haircuts, grooming, and styling services. Enjoy customized packages that cater to your specific needs, all while saving time and money.</p>
+    </div>
+    <div class="circle" style="background-image: url('mencombo_image.png');">
+      <h2>Combo Packs</h2>
+      <ul>
+        <li>BASIC GROOMING COMBO (CLASSIC HAIRCUT + BEARD TRIM) – ₹1707.80</li>
+        <li>PREMIUM STYLE COMBO (FADE/UNDERCUT + BEARD SHAPING + HAIR WASH & SCALP MASSAGE) – ₹3842.55</li>
+        <li>ULTIMATE GROOMING COMBO (POMPADOUR STYLING + BEARD TRIM & SHAPE + DEEP CONDITIONING TREATMENT) – ₹5123.40</li>
+        <li>LUXURY CARE COMBO (LONG HAIR STYLING + FULL BEARD GROOMING + HAIR WASH + SCALP MASSAGE + DEEP CONDITIONING) – ₹6404.25</li>
+        <li>SPORTY LOOK COMBO (BUZZ CUT + BEARD SHAPING + REFRESHING SCALP MASSAGE) – ₹2988.65</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Membership Section -->
+  <div class="container">
+    <div class="circle" style="background-image: url('menmembership_image.png');">
+      <h2>Membership Pack</h2>
+      <ul>
+        <li><strong>BASIC STYLE MEMBERSHIP</strong> – ₹2134.75/month<br>
+          <small>10% off on all haircuts, one free beard trim each month, complimentary hair wash with every haircut, priority appointment booking.</small>
+        </li><br>
+        <li><strong>PREMIUM STYLE PLAN</strong> – ₹6831.20/month<br>
+          <small>Unlimited haircuts and beard trims, free scalp massage with every visit, premium products, personal styling tips, early access to trends.</small>
+        </li><br>
+        <li><strong>ELITE STYLE PLAN </strong> – ₹10246.80/month<br>
+            <small>UNLIMITED HAIRCUTS, HAIRSTYLING, AND BEARD GROOMING,TWO FREE HAIR SPA OR DEEP CONDITIONING TREATMENTS MONTHLY,EARLY ACCESS TO NEW TRENDS AND PREMIUM SERVICES,INVITATIONS TO EXCLUSIVE GROOMING WORKSHOPS.</small>
+          </li>
+      </ul>
+    </div>
+    <div class="text-block">
+      <p><strong>Our Membership Packs</strong> provide exclusive access to unlimited grooming services, special discounts, and personalized care. Choose from various plans tailored to your needs and enjoy priority booking, free treatments, and more with every visit.</p>
+    </div>
+  </div>
+
+  <!-- Book Slot Button -->
+  <div style="text-align: center; margin: 40px 0;">
+    <button class="book-slot-btn" onclick="location.href='BookAppointment.html'">BOOK YOUR SLOT</button>
+  </div>
+
+  <!-- Footer -->
+  <footer style="padding: 40px 20px; border-top: 1px solid #ccc; font-size: 0.9rem; color: #555;">
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; max-width: 1000px; margin: auto;">
+      <div>
+        <h4>Company</h4>
+        <p>Home<br>Blog<br>About Us<br>Franchise<br>Privacy Policy</p>
+      </div>
+      <div>
+        <h4>Our Services</h4>
+        <p>Events<br>Hair Care<br>Skin Care<br>Body Care</p>
+      </div>
+      <div>
+        <h4>Contact Us</h4>
+        <p>
+          Phone Number: +91 (996)-273-4416<br>
+          Location: 10,PT Rajan Rd,Sector 1,KK Nagar,Chennai,Tamil Nadu
+        </p>
+      </div>
+      <div style="text-align: right;">
+        <h4>Thanks for choosing</h4>
+        <p style="font-weight: bold; font-size: 1.1rem;">StyleMatch</p>
+        <div>
+          <img style="width: 70px; height: 70px; margin-right: 10px; filter: brightness(0) invert(0);" src="logo.png" alt="logo">
+        </div>
+      </div>
+    </div>
+    <p style="text-align: center; margin-top: 30px;">Copyright © 2025. StyleMatch. Love. All Rights Reserved</p>
+  </footer>
+
+</body>
+</html>

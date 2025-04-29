@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StyleMatch</title>
+  <style>
+    body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    color: white;
+
+  }
+  .Front-Page{
+    background-image: url("barbershop-bg.png");
+    background-size: cover;
+    background-position: center;
+
+  }
+  
+  
+  .tags-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    color: white;
+    font-size: 18px;
+  }
+  
+  .left-logo {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo-image {
+
+    width: 70px;
+    height: 70px;
+    margin-right: 10px;
+    position: relative;
+    overflow: hidden;
+    filter: sepia(60%) saturate(150%) brightness(100%) hue-rotate(20deg);
+  }
+  
+  .logo {
+    color: #e5c995;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+    line-height: 2.8;
+  }
+  
+  .nav-links {
+    display: flex;
+    align-items: center;
+  }
+  
+  .nav-links span,
+  .login-button {
+    margin-left: 20px;
+    cursor: pointer;
+    transition: opacity 0.3s;
+  }
+  
+  .nav-links span:hover,
+  .login-button:hover {
+    opacity: 0.7;
+  }
+  
+  .login-button {
+    padding: 5px 15px;
+    border: 1px solid white;
+    background: transparent;
+    color: white;
+    border-radius: 5px;
+  }
+  
+  .frontpage-container {
+    height: 100vh;
+    color: white;
+    font-family: 'Arial', sans-serif;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .content-block {
+    position: absolute;
+    right: 80px;
+    top: 50%;
+    transform: translateY(-50%);
+    max-width: 520px;
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 20px;
+  }
+  
+  .description {
+    font-size: 16px;
+    line-height: 1.4;
+    color: #e5c995;
+    margin: 0;
+  }
+  
+  .animated-text {
+    font-size: 36px;
+    font-weight: 800;
+    line-height: 1.2;
+    margin: 0;
+    white-space: nowrap;
+  }
+  
+  .hover-text {
+    transition: opacity 0.3s ease;
+    color: #e5c995;
+  }
+  
+  .hover-text:hover {
+    opacity: 0.8;
+  }
+  
+  .book-button {
+    padding: 12px 32px;
+    font-size: 15px;
+    color: white;
+    background: transparent;
+    border: 2px solid white;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .book-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+  
+  /* Mobile Devices */
+  @media screen and (max-width: 600px) {
+    .tags-container {
+      flex-direction: column;
+      padding: 10px 20px;
+      text-align: center;
+    }
+  
+    .logo-image {
+      width: 50px;
+      height: 50px;
+      margin-bottom: 10px;
+    }
+  
+    .logo {
+      font-size: 20px;
+      line-height: 1.2;
+    }
+  
+    .nav-links {
+      flex-direction: column;
+      margin-top: 10px;
+    }
+  
+    .nav-links span,
+    .login-button {
+      margin: 10px 0;
+    }
+  
+    .login-button {
+      padding: 8px 20px;
+      font-size: 16px;
+    }
+  
+    .content-block {
+      right: 20px;
+      max-width: 90%;
+    }
+  
+    .animated-text {
+      font-size: 26px;
+    }
+  
+    .description {
+      font-size: 14px;
+    }
+  
+    .book-button {
+      padding: 10px 24px;
+      font-size: 14px;
+    }
+  }
+  
+  /* Tablet Devices */
+  @media screen and (min-width: 601px) and (max-width: 1024px) {
+    .tags-container {
+      padding: 15px 30px;
+    }
+  
+    .logo-image {
+      width: 60px;
+      height: 60px;
+    }
+  
+    .logo {
+      font-size: 22px;
+      line-height: 1.8;
+    }
+  
+    .nav-links span,
+    .login-button {
+      margin-left: 15px;
+      font-size: 16px;
+    }
+  
+    .login-button {
+      padding: 6px 18px;
+    }
+  }
+  
+  /* TV Screens */
+  @media screen and (min-width: 1025px) {
+    .tags-container {
+      padding: 30px 80px;
+    }
+  
+    .logo-image {
+      width: 90px;
+      height: 90px;
+    }
+  
+    .logo {
+      font-size: 28px;
+      line-height: 3.5;
+    }
+  
+    .nav-links span,
+    .login-button {
+      margin-left: 30px;
+      font-size: 20px;
+    }
+  
+    .login-button {
+      padding: 8px 25px;
+    }
+  }
+  /* --- Categories Section --- */
+/* --- Categories Section Updated --- */
+.categories {
+    padding: 80px 40px;
+    background-color: rgba(0,0,0,0.7);
+    text-align: center;
+  }
+  
+  .categories-title {
+    color: white;
+    font-size: 32px;
+    margin-bottom: 40px;
+    letter-spacing: 2px;
+  }
+  
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  
+  .category-card {
+    position: relative;
+    height: 500px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+  
+  .category-card:hover {
+    transform: scale(1.03);
+  }
+  
+  .category-label {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: rgba(255,255,255,0.8);
+    color: black;
+    font-weight: bold;
+    padding: 15px 0;
+    font-size: 18px;
+    letter-spacing: 1px;
+    text-align: center;
+  }
+  
+  /* Responsive - Tablet */
+  @media screen and (max-width: 1024px) {
+    .category-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  /* Responsive - Mobile */
+  @media screen and (max-width: 600px) {
+    .category-grid {
+      grid-template-columns: 1fr;
+    }
+    .categories-title {
+      font-size: 26px;
+    }
+    .category-card {
+      height: 200px;
+    }
+  }
+
+  .newly-launched {
+    padding: 60px 20px;
+    background-image: url('giphy.gif');
+    background-repeat: no-repeat;
+    background-size: cover; /* Or use `contain` if you want the full gif visible */
+    background-position: center;
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .launch-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    max-width: 1200px;
+    flex-wrap: wrap;
+  }
+  
+  .launch-image img {
+    width: 300px;
+    height: auto;
+    border-radius: 10px;
+  
+  }
+  
+  .launch-details {
+    max-width: 500px;
+    text-align: center;
+  }
+  
+  .launch-title {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .launch-description {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 30px;
+    line-height: 1.6;
+  }
+  
+  .buy-now-button {
+    background-color: #000;
+    color: #fff;
+    padding: 12px 30px;
+    border: 2px solid #000;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s ease;
+  }
+  
+  .buy-now-button:hover {
+    background-color: #fff;
+    color: #000;
+  }
+  
+  /* Tablet View (768px - 1024px) */
+  @media screen and (max-width: 1024px) {
+    .launch-container {
+      flex-direction: column;
+      gap: 30px;
+      padding: 0 20px;
+    }
+  
+    .launch-title {
+      font-size: 28px;
+    }
+  
+    .launch-description {
+      font-size: 16px;
+    }
+  
+    .launch-image img {
+      width: 250px;
+    }
+  }
+  
+  /* Mobile View (up to 767px) */
+  @media screen and (max-width: 767px) {
+    .newly-launched {
+      padding: 40px 10px;
+    }
+  
+    .launch-container {
+      flex-direction: column;
+      gap: 20px;
+    }
+  
+    .launch-image img {
+      width: 200px;
+    }
+  
+    .launch-title {
+      font-size: 24px;
+    }
+  
+    .launch-description {
+      font-size: 14px;
+      padding: 0 10px;
+    }
+  
+    .buy-now-button {
+      padding: 10px 20px;
+      font-size: 14px;
+    }
+  }
+/* General Card Styling */
+.expertise {
+  background-color: #f9f0dc;
+  color: white;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+ 
+.container h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: black;
+  font-size: 32px;
+  letter-spacing: 2px;
+}
+
+.scroll-container {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  gap: 1rem;
+  padding-bottom: 10px;
+}
+
+.staff-card {
+  scroll-snap-align: start;
+  flex: 0 0 auto;
+  width: 250px;
+  background-color: #111;
+  border: 2px solid gold;
+  border-radius: 15px;
+  color: white;
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.staff-card:hover {
+  transform: translateY(-5px);
+}
+
+.card-img-top {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-top-left-radius: 13px;
+  border-top-right-radius: 13px;
+}
+
+.card-body {
+  padding: 1rem;
+  text-align: center;
+}
+
+.card-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: gold;
+  margin-bottom: 0.3rem;
+}
+
+.card-text {
+  font-size: 0.9rem;
+  color: #ddd;
+}
+
+/* Scrollbar styling for aesthetics (optional) */
+.scroll-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.scroll-container::-webkit-scrollbar-track {
+  background: #222;
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+  background-color: gold;
+  border-radius: 10px;
+}
+
+/* Responsive tweaks */
+@media screen and (max-width: 576px) {
+  .staff-card {
+    width: 80%;
+    margin: 0 auto;
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+
+
+.bridal-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: #f9f0dc; /* sandal background */
+  text-align: center;
+  padding: 20px;
+}
+
+.bridal-title {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: black;
+  font-weight: bold;
+}
+
+.image-container {
+  position: relative;
+  width: 600px;
+  max-width: 90%;
+  display: flex;
+  overflow: hidden;
+}
+
+.image-half {
+  width: 50%;
+  height: auto;
+  transform: translateX(100%);
+  opacity: 0;
+  transition: all 1.5s ease;
+}
+
+.image-half:first-child {
+  transform: translateX(-100%);
+}
+
+.image-container.active .image-half {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.caption {
+  margin-top: 30px;
+  max-width: 800px;
+  padding: 0 20px;
+}
+
+.caption p {
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.caption button {
+
+  background-color: #d9b18e;
+  padding: 12px 30px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.caption button:hover {
+  background-color: #cba176;
+}
+
+/* Responsive styling */
+@media screen and (max-width: 768px) {
+  .image-container {
+    flex-direction: column;
+  }
+
+  .image-half {
+    width: 100%;
+    transform: translateY(50px);
+  }
+
+  .image-half:first-child {
+    transform: translateY(-50px);
+  }
+
+  .image-container.active .image-half {
+    transform: translateY(0);
+  }
+}
+.awards-section {
+  padding: 50px 20px;
+  background-color: #f4d7a6;
+  text-align: center;
+}
+
+.awards-title {
+  font-size: 2.5rem;
+  margin-bottom: 40px;
+  color: #333;
+}
+
+.awards-row {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+.award-card {
+  width: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.award-card img {
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #000;
+}
+
+.award-card p {
+  margin-top: 10px;
+  font-size: 1rem;
+  color: #555;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .awards-row {
+    gap: 20px;
+  }
+  .award-card {
+    width: 45%;
+  }
+  .award-card img {
+    width: 140px;
+    height: 140px;
+  }
+}
+
+@media (max-width: 480px) {
+  .award-card {
+    width: 80%;
+  }
+  .award-card img {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+
+  </style>
+</head>
+<body>
+ <div class="Front-Page">
+  <div class="tags-container">
+    <div class="left-logo">
+      <img src="logo.png" alt="logo" class="logo-image" />
+      <h2 class="logo">StyleMatch</h2>
+    </div>
+    <div class="nav-links">
+      <span>OUR SERVICE</span>
+      <span>FRANCHISE</span>
+      <span>ABOUT US</span>
+      <button class="login-button" onclick="location.href='LoginPage.html'">LOGIN</button>
+    </div>
+  </div>
+  <div class="frontpage-container">
+
+    <div class="content-block">
+      <p class="description">
+        In our hair salon focuses on enhancing hair health and aesthetics while
+        providing a personalized and relaxing experience.
+      </p>
+      <h1 class="animated-text">
+        VISIT OUR SHOP AND EXPLORE<br />
+        <span class="hover-text" id="changing-text">HAIR STYLE</span>
+      </h1>
+      <button class="book-button" onclick="location.href='BookAppointment.html'">BOOK APPOINTMENT</button>
+    </div>
+  </div>
+</div>
+<section class="categories">
+    <h2 class="categories-title">CATEGORIES</h2>
+    <div class="category-grid">
+      <div class="category-card" onclick="location.href='WomenStyle.html'" style="background-image: url('women-style.png');">
+        <div class="category-label">WOMEN STYLE</div>
+      </div>
+      <div class="category-card" onclick="location.href='MenStyle.html'" style="background-image: url('men-style.png');">
+        <div class="category-label">MEN STYLE</div>
+      </div>
+      <div class="category-card" onclick="location.href='HairTreatment.html'" style="background-image: url('hair-treatment.png');">
+        <div class="category-label">HAIR TREATMENT</div>
+      </div>
+      <div class="category-card" onclick="location.href='ownproducts.html'" style="background-image: url('own-products.png');">
+        <div class="category-label">OWN PRODUCTS</div>
+      </div>
+    </div>
+  </section>
+  <section class="newly-launched">
+    <div class="launch-container">
+      <div class="launch-image">
+        <img src="facecream.png" alt="StyleMatch Cream" />
+      </div>
+      <div class="launch-details">
+        <h2 class="launch-title">NEWLY LAUNCHED!!!</h2>
+        <p class="launch-description">
+          "Experience radiant, hydrated skin with our newly launched face cream, crafted for a flawless glow!"
+        </p>
+        <button class="buy-now-button" onclick="location.href='BuyNow.html'">BUY NOW</button>
+      </div>
+    </div>
+  </section>
+  <section class="expertise">
+  <div class="container">
+    <h2>EXPERTISE STAFF</h2>
+    <div class="scroll-container">
+      <!-- Edwin -->
+      <div class="staff-card">
+        <img src="edwin.png" class="card-img-top" alt="Edwin Lee">
+        <div class="card-body">
+          <h5 class="card-title">SAYED GHULAM</h5>
+          <p class="card-text"><strong>Men Hair Stylist</strong><br>Specializes in cutting, coloring, and styling hair to suit clients' preferences and trends.</p>
+          <p>⭐⭐⭐⭐⭐/5</p>
+        </div>
+      </div>
+      <!-- Julia -->
+      <div class="staff-card">
+        <img src="julia.png" class="card-img-top" alt="Julia">
+        <div class="card-body">
+          <h5 class="card-title">JULIA</h5>
+          <p class="card-text"><strong>Skincare Specialist</strong><br>Provides facials, skin treatments, and tailored product recommendations.</p>
+          <p>⭐⭐⭐⭐⭐/5</p>
+        </div>
+      </div>
+      <!-- Wayne -->
+      <div class="staff-card">
+        <img src="wayne.png" class="card-img-top" alt="Wayne Goss">
+        <div class="card-body">
+          <h5 class="card-title">WAYNE GOSS</h5>
+          <p class="card-text"><strong>Unisex Makeup Artist</strong><br>Focuses on creating stunning looks for events, weddings, and everyday glamour.</p>
+          <p>⭐⭐⭐⭐⭐/5</p>
+        </div>
+      </div>
+      <!-- Tommy -->
+      <div class="staff-card">
+        <img src="tommy.png" class="card-img-top" alt="Tommy Dean">
+        <div class="card-body">
+          <h5 class="card-title">TOMMY AARKIF</h5>
+          <p class="card-text"><strong>Massage Therapist</strong><br>Provides relaxing massages for the head, neck, and shoulders.</p>
+          <p>⭐⭐⭐⭐⭐/5</p>
+        </div>
+      </div>
+      <!-- Andria -->
+      <div class="staff-card">
+        <img src="andria.png" class="card-img-top" alt="Andria">
+        <div class="card-body">
+          <h5 class="card-title">ANDRIA</h5>
+          <p class="card-text"><strong>Women Hair Stylist</strong><br>Expert in modern cuts, coloring, and styling techniques tailored for women.</p>
+          <p>⭐⭐⭐⭐⭐/5</p>
+        </div>
+      </div>
+      <!-- Mohan -->
+      <div class="staff-card">
+        <img src="mohan.png" class="card-img-top" alt="Mohan">
+        <div class="card-body">
+          <h5 class="card-title">MOHAN</h5>
+          <p class="card-text"><strong>Men Hair Stylist</strong><br>Specializes in classic and trendy haircuts, fades, and beard grooming.</p>
+          <p>⭐⭐⭐⭐⭐/5</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="bridal-section">
+  <h2 class="bridal-title">BRIDAL SERVICES</h2>
+  <div class="image-container" id="image-container">
+    <img src="leftface.png" alt="Before" class="image-half">
+    <img src="rightface.png" alt="After" class="image-half">
+  </div>
+  <div class="caption">
+    <p>"Comprehensive bridal services, including makeup, hairstyling, skincare, and grooming, to make your special day flawless and unforgettable."</p>
+    <button onclick="location.href='BridalService.html'">BOOK YOUR SLOT</button>
+  </div>
+</section>
+<section class="awards-section">
+  <h2 class="awards-title">AWARDS AND ACHIEVEMENTS</h2>
+
+  <!-- First Row -->
+  <div class="awards-row">
+    <div class="award-card">
+      <img src="award1.png" alt="Salon of the Year" />
+      <p>Salon of the Year</p>
+    </div>
+    <div class="award-card">
+      <img src="award2.png" alt="Top Creative Makeup Studio" />
+      <p>Top Creative Makeup Studio</p>
+    </div>
+    <div class="award-card">
+      <img src="award3.png" alt="Innovative Hair Treatment Specialist" />
+      <p>Innovative Hair Treatment Specialist</p>
+    </div>
+  </div>
+
+  <!-- Second Row -->
+  <div class="awards-row second-row">
+    <div class="award-card">
+      <img src="award4.png" alt="Best Customer Service" />
+      <p>Best Customer Service</p>
+    </div>
+    <div class="award-card">
+      <img src="award5.png" alt="Top Rated Salon" />
+      <p>Top Rated Salon</p>
+    </div>
+  </div>
+</section>
+<footer style="padding: 40px 20px; border-top: 1px solid #ccc; font-size: 0.9rem; color: #555;">
+  <div style="display: flex; flex-wrap: wrap; justify-content: space-between; max-width: 1000px; margin: auto;">
+    <div>
+      <h4>Company</h4>
+      <p>Home<br>Blog<br>About Us<br>Franchise<br>Privacy Policy</p>
+    </div>
+    <div>
+      <h4>Our Services</h4>
+      <p>Events<br>Hair Care<br>Skin Care<br>Body Care</p>
+    </div>
+    <div>
+      <h4>Contact Us</h4>
+      <p>
+        Phone Number: +91 (996)-273-4416<br>
+        Location: 10,PT Rajan Rd,Sector 1,KK Nagar,Chennai,Tamil Nadu
+      </p>
+    </div>
+    <div style="text-align: right;">
+      <h4>Thanks for choosing</h4>
+      <p style="font-weight: bold; font-size: 1.1rem;">StyleMatch</p>
+      <div>
+        <img style="width: 70px; height: 70px; margin-right: 10px; filter: brightness(0) invert(0);" src="logo.png" alt="logo">
+      </div>
+    </div>
+  </div>
+  <p style="text-align: center; margin-top: 30px;">Copyright © 2025. StyleMatch. Love. All Rights Reserved</p>
+</footer>
+
+
+
+
+<script>
+  const container = document.getElementById('image-container');
+
+  setInterval(() => {
+    container.classList.toggle('active');
+  }, 2000); // Toggle every 2 seconds
+</script>
+  <script>
+    const texts = ["HAIR STYLE", "MAKEUP SERVICES"];
+let currentTextIndex = 0;
+
+function updateText() {
+  const textElement = document.getElementById("changing-text");
+  currentTextIndex = (currentTextIndex + 1) % texts.length;
+  textElement.textContent = texts[currentTextIndex];
+}
+
+setInterval(updateText, 2000);
+
+function navigateToLogin() {
+  // Simulate routing for this static version
+  alert("Redirecting to login page...");
+  // window.location.href = "login.html"; // Uncomment when login.html exists
+}
+
+
+  </script>
+</body>
+</html>
