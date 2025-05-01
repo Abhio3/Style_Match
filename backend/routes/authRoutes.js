@@ -5,7 +5,7 @@ const {
   getCurrentUser,
   forgotPassword,
   resetPassword
-} = require("../backend/controllers/authController.js");
+} = require('../controllers/authController');
 const { protect } = require('../middlewares/auth');
 
 const router = express.Router();

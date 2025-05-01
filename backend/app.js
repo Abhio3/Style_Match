@@ -4,7 +4,7 @@ const cors = require('cors');
 // Import routes
 const authRoutes = require('./routes/authRoutes');
 const appointmentRoutes = require('./routes/appointmentRoutes');
-const orderRoutes = require('./routes/orderRoutes.js');
+const orderRoutes = require('./routes/orderRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 
 const app = express();
@@ -24,6 +24,9 @@ app.use('/api/admin', adminRoutes);
 app.get('/', (req, res) => {
   res.send('StyleMatch API is running');
 });
+
+// Serve static files (if needed)
+app.use(express.static('public'));
 
 // Error handling middleware
 app.use((err, req, res, next) => {
