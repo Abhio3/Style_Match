@@ -220,7 +220,7 @@
       color: white;
     }
     
-    /* Modal */
+    /* Modal - UPDATED FOR SCROLLING */
     .modal {
       display: none;
       position: fixed;
@@ -241,6 +241,9 @@
       box-shadow: 0 2px 10px rgba(0,0,0,0.2);
       width: 90%;
       max-width: 600px;
+      max-height: 80vh; /* Limit height to 80% of viewport */
+      display: flex;
+      flex-direction: column;
     }
     
     .modal-header {
@@ -248,6 +251,20 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .modal-body {
+      overflow-y: auto; /* Make this section scrollable */
+      padding-right: 5px;
+      max-height: calc(80vh - 140px); /* Leave space for header and footer */
+    }
+    
+    .modal-footer {
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid #eee;
     }
     
     .close-btn {
@@ -275,7 +292,8 @@
     }
     
     .form-group textarea {
-      height: 100px;
+      height: 80px; /* Smaller height for textareas */
+      resize: vertical;
     }
     
     .submit-btn {
@@ -287,7 +305,6 @@
       border-radius: 4px;
       cursor: pointer;
       font-size: 16px;
-      margin-top: 10px;
     }
     
     /* Loading Spinner */
@@ -510,7 +527,7 @@
     </div>
   </div>
   
-  <!-- Product Modal -->
+  <!-- Product Modal - UPDATED WITH SCROLLABLE SECTION -->
   <div id="product-modal" class="modal">
     <div class="modal-content">
       <div class="modal-header">
@@ -518,75 +535,79 @@
         <button class="close-btn">&times;</button>
       </div>
       
-      <form id="product-form">
-        <input type="hidden" id="product-id">
-        
-        <div class="form-group">
-          <label for="product-name">Product Name</label>
-          <input type="text" id="product-name" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="product-description">Description</label>
-          <textarea id="product-description" required></textarea>
-        </div>
-        
-        <div class="form-group">
-          <label for="product-price">Price (₹)</label>
-          <input type="number" id="product-price" required min="0" step="0.01">
-        </div>
-        
-        <div class="form-group">
-          <label for="product-image">Image URL</label>
-          <input type="text" id="product-image" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="product-type">Type</label>
-          <input type="text" id="product-type">
-        </div>
-        
-        <div class="form-group">
-          <label for="product-benefits">Benefits</label>
-          <textarea id="product-benefits"></textarea>
-        </div>
-        
-        <div class="form-group">
-          <label for="product-quantity">Quantity</label>
-          <input type="text" id="product-quantity">
-        </div>
-        
-        <div class="form-group">
-          <label for="product-usage">Usage</label>
-          <textarea id="product-usage"></textarea>
-        </div>
-        
-        <div class="form-group">
-          <label for="product-ingredients">Ingredients</label>
-          <textarea id="product-ingredients"></textarea>
-        </div>
-        
-        <div class="form-group">
-          <label for="product-recommended">Recommended For</label>
-          <input type="text" id="product-recommended">
-        </div>
-        
-        <div class="form-group">
-          <label for="product-extra">Extra Information</label>
-          <textarea id="product-extra"></textarea>
-        </div>
-        
-        <div class="form-group">
-          <label for="product-stock">Stock</label>
-          <input type="number" id="product-stock" required min="0">
-        </div>
-        
-        <button type="submit" class="submit-btn">Save Product</button>
-      </form>
+      <div class="modal-body">
+        <form id="product-form">
+          <input type="hidden" id="product-id">
+          
+          <div class="form-group">
+            <label for="product-name">Product Name</label>
+            <input type="text" id="product-name" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="product-description">Description</label>
+            <textarea id="product-description" required></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label for="product-price">Price (₹)</label>
+            <input type="number" id="product-price" required min="0" step="0.01">
+          </div>
+          
+          <div class="form-group">
+            <label for="product-image">Image URL</label>
+            <input type="text" id="product-image" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="product-type">Type</label>
+            <input type="text" id="product-type">
+          </div>
+          
+          <div class="form-group">
+            <label for="product-benefits">Benefits</label>
+            <textarea id="product-benefits"></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label for="product-quantity">Quantity</label>
+            <input type="text" id="product-quantity">
+          </div>
+          
+          <div class="form-group">
+            <label for="product-usage">Usage</label>
+            <textarea id="product-usage"></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label for="product-ingredients">Ingredients</label>
+            <textarea id="product-ingredients"></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label for="product-recommended">Recommended For</label>
+            <input type="text" id="product-recommended">
+          </div>
+          
+          <div class="form-group">
+            <label for="product-extra">Extra Information</label>
+            <textarea id="product-extra"></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label for="product-stock">Stock</label>
+            <input type="number" id="product-stock" required min="0">
+          </div>
+        </form>
+      </div>
+      
+      <div class="modal-footer">
+        <button type="submit" class="submit-btn" id="save-product-btn">Save Product</button>
+      </div>
     </div>
   </div>
   
-  <!-- Update Status Modal -->
+  <!-- Update Status Modal - UPDATED WITH SCROLLABLE SECTION -->
   <div id="status-modal" class="modal">
     <div class="modal-content">
       <div class="modal-header">
@@ -594,19 +615,23 @@
         <button class="close-btn">&times;</button>
       </div>
       
-      <form id="status-form">
-        <input type="hidden" id="status-item-id">
-        <input type="hidden" id="status-item-type">
-        
-        <div class="form-group">
-          <label for="status-select">Status</label>
-          <select id="status-select" required>
-            <!-- Options will be loaded dynamically -->
-          </select>
-        </div>
-        
-        <button type="submit" class="submit-btn">Update Status</button>
-      </form>
+      <div class="modal-body">
+        <form id="status-form">
+          <input type="hidden" id="status-item-id">
+          <input type="hidden" id="status-item-type">
+          
+          <div class="form-group">
+            <label for="status-select">Status</label>
+            <select id="status-select" required>
+              <!-- Options will be loaded dynamically -->
+            </select>
+          </div>
+        </form>
+      </div>
+      
+      <div class="modal-footer">
+        <button type="submit" class="submit-btn" id="save-status-btn">Update Status</button>
+      </div>
     </div>
   </div>
   
@@ -671,16 +696,21 @@
         
         // Show modal
         document.getElementById('product-modal').style.display = 'flex';
+        
+        // Reset scroll position
+        setTimeout(function() {
+          document.querySelector('#product-modal .modal-body').scrollTop = 0;
+        }, 100);
       });
       
-      // Product form submission
-      document.getElementById('product-form').addEventListener('submit', function(e) {
+      // Product form submission - UPDATED
+      document.getElementById('save-product-btn').addEventListener('click', function(e) {
         e.preventDefault();
         saveProduct();
       });
       
-      // Status form submission
-      document.getElementById('status-form').addEventListener('submit', function(e) {
+      // Status form submission - UPDATED
+      document.getElementById('save-status-btn').addEventListener('click', function(e) {
         e.preventDefault();
         updateStatus();
       });
@@ -1003,7 +1033,7 @@
       }
     }
     
-    // Edit product
+    // Edit product - UPDATED to reset scroll position
     async function editProduct(id) {
       try {
         const response = await fetch(`${API_URL}/admin/products/${id}`, {
@@ -1038,6 +1068,11 @@
           
           // Show modal
           document.getElementById('product-modal').style.display = 'flex';
+          
+          // Reset scroll position
+          setTimeout(function() {
+            document.querySelector('#product-modal .modal-body').scrollTop = 0;
+          }, 100);
         } else {
           alert('Error loading product: ' + data.message);
         }
