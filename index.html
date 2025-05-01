@@ -889,16 +889,6 @@
   <p style="text-align: center; margin-top: 30px;">Copyright © 2025. StyleMatch. Love. All Rights Reserved</p>
 </footer>
 
-
-
-
-<script>
-  const container = document.getElementById('image-container');
-
-  setInterval(() => {
-    container.classList.toggle('active');
-  }, 2000); // Toggle every 2 seconds
-</script>
   <script>
     const texts = ["HAIR STYLE", "MAKEUP SERVICES"];
 let currentTextIndex = 0;
@@ -919,5 +909,40 @@ function navigateToLogin() {
 
 
   </script>
+
+  <!-- Add this right before the closing body tag -->
+<script src="js/api.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Check if user is authenticated
+    const isAuthenticated = window.styleMatchAPI.auth.isAuthenticated();
+    const currentUser = window.styleMatchAPI.auth.getCurrentUser();
+    
+    // Update login button
+    const loginButton = document.querySelector('.login-button');
+    if (loginButton) {
+      if (isAuthenticated) {
+        loginButton.textContent = 'LOGOUT';
+        loginButton.onclick = function() {
+          window.styleMatchAPI.auth.logout();
+        };
+        
+        // If admin, add admin link to navigation
+        if (window.styleMatchAPI.auth.isAdmin()) {
+          const navLinks = document.querySelector('.nav-links');
+          const adminLink = document.createElement('a');
+          adminLink.href = 'admin.html';
+          adminLink.textContent = 'ADMIN';
+          navLinks.insertBefore(adminLink, loginButton);
+        }
+      } else {
+        loginButton.textContent = 'LOGIN';
+        loginButton.onclick = function() {
+          window.location.href = 'LoginPage.html';
+        };
+      }
+    }
+  });
+</script>
 </body>
 </html>

@@ -176,6 +176,42 @@
       font-size: 14px;
     }
   }
+  
+  /* Loading spinner */
+  .spinner {
+    display: none;
+    margin: 10px auto;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top: 4px solid #fff;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  .alert {
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+    display: none;
+    text-align: center;
+    width: 100%;
+  }
+  
+  .alert-success {
+    background-color: rgba(0, 128, 0, 0.2);
+    border: 1px solid green;
+  }
+  
+  .alert-error {
+    background-color: rgba(255, 0, 0, 0.2);
+    border: 1px solid red;
+  }
   </style>
 </head>
 <body>
@@ -189,6 +225,8 @@
 </div>
 
 <div class="container">
+  <div class="alert alert-success" id="booking-success"></div>
+  <div class="alert alert-error" id="booking-error"></div>
 
   <div class="form-row">
     <div class="form-group">
@@ -199,10 +237,10 @@
     <div class="form-group">
       <label>GENDER :</label>
       <select id="gender">
-        <option>CHOOSE</option>
-        <option>Male</option>
-        <option>Female</option>
-        <option>Other</option>
+        <option value="">CHOOSE</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
       </select>
     </div>
   </div>
@@ -222,12 +260,12 @@
     <div class="form-group">
       <label>SERVICE :</label>
       <select id="service">
-        <option>Select Service</option>
-        <option>Men Hair style</option>
-        <option>Women Hair style</option>
-        <option>Beard Trim</option>
-        <option>Hair treatment</option>
-        <option>Skin treatment</option>
+        <option value="">Select Service</option>
+        <option value="Men Hair style">Men Hair style</option>
+        <option value="Women Hair style">Women Hair style</option>
+        <option value="Beard Trim">Beard Trim</option>
+        <option value="Hair treatment">Hair treatment</option>
+        <option value="Skin treatment">Skin treatment</option>
       </select>
     </div>
 
@@ -241,13 +279,21 @@
     <div class="form-group">
       <label>TIME :</label>
       <select id="time">
-        <option>CHOOSE</option>
+        <option value="">CHOOSE</option>
+        <option value="8-10 AM">8-10 AM</option>
+        <option value="10-12 AM">10-12 AM</option>
+        <option value="1-3 PM">1-3 PM</option>
+        <option value="3-5 PM">3-5 PM</option>
+        <option value="5-7 PM">5-7 PM</option>
+        <option value="7-9 PM">7-9 PM</option>
+        <option value="9-11 PM">9-11 PM</option>
       </select>
     </div>
   </div>
 
   <div class="button-container">
-    <button onclick="bookAppointment()">BOOK APPOINTMENT</button>
+    <button id="book-button">BOOK APPOINTMENT</button>
+    <div class="spinner" id="booking-spinner"></div>
   </div>
 
 </div>
@@ -265,6 +311,8 @@
   </div>
 </div>
 
+<!-- Include the API.js script -->
+<script src="js/api.js"></script>
 <script>
   // Populate Date Fields
   const today = new Date();
@@ -289,6 +337,7 @@
     for (let d = 1; d <= daysInMonth; d++) {
       const option = document.createElement('option');
       option.text = d;
+      option.value = d;
       if (d === today.getDate()) option.selected = true;
       dayEl.appendChild(option);
     }
@@ -297,6 +346,7 @@
   for (let y = today.getFullYear(); y <= today.getFullYear() + 1; y++) {
     const option = document.createElement('option');
     option.text = y;
+    option.value = y;
     if (y === today.getFullYear()) option.selected = true;
     yearEl.appendChild(option);
   }
@@ -305,59 +355,129 @@
   yearEl.onchange = populateDays;
   populateDays();
 
-  // Populate Time Slots
-  const timeEl = document.getElementById('time');
-  const timeSlots = [
-    "8-10 AM", "10-12 AM", "1-3 PM", "3-5 PM", "5-7 PM", "7-9 PM", "9-11 PM"
-  ];
-  timeSlots.forEach(slot => {
-    const option = document.createElement('option');
-    option.text = slot;
-    timeEl.appendChild(option);
+  // Booking Appointment
+  document.getElementById('book-button').addEventListener('click', async function() {
+    const firstName = document.getElementById('firstName').value.trim();
+    const lastName = document.getElementById('lastName').value.trim();
+    const gender = document.getElementById('gender').value;
+    const mobile = document.getElementById('mobile').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const service = document.getElementById('service').value;
+    const time = document.getElementById('time').value;
+    
+    const bookingSuccess = document.getElementById('booking-success');
+    const bookingError = document.getElementById('booking-error');
+    const bookingSpinner = document.getElementById('booking-spinner');
+    
+    // Reset messages
+    bookingSuccess.style.display = 'none';
+    bookingError.style.display = 'none';
+
+    // Validation
+    if (!firstName || !lastName || gender === "" || !mobile || !email ||
+        service === "" || time === "") {
+      bookingError.textContent = "Please fill out all fields and make proper selections before booking your appointment.";
+      bookingError.style.display = 'block';
+      return;
+    }
+
+    // Format date as YYYY-MM-DD for API
+    const month = parseInt(monthEl.value) + 1;
+    const day = dayEl.value;
+    const year = yearEl.value;
+    const formattedDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+    const displayDate = `${months[monthEl.value]} ${day}, ${year}`;
+    
+    // Show spinner
+    bookingSpinner.style.display = 'block';
+    
+    try {
+      // Create appointment data
+      const appointmentData = {
+        firstName,
+        lastName,
+        gender,
+        mobile,
+        email,
+        service,
+        appointmentDate: formattedDate,
+        appointmentTime: time
+      };
+      
+      // Call API
+      const response = await window.styleMatchAPI.appointments.bookRegular(appointmentData);
+      
+      // Hide spinner
+      bookingSpinner.style.display = 'none';
+      
+      if (response.success) {
+        // Show success message
+        bookingSuccess.textContent = 'Appointment booked successfully!';
+        bookingSuccess.style.display = 'block';
+        
+        // Display confirmation message
+        const name = `${firstName} ${lastName}`;
+        const message = `
+          <h3>Thanks ${name}!!!</h3>
+          <p>Your appointment for <strong>${service}</strong> has been successfully confirmed!</p>
+          <p>We look forward to seeing you on <strong>${displayDate}</strong> at <strong>${time}</strong>.</p>
+          <p>For any changes or inquiries, contact us at <strong>+1 (646) 555-7890</strong>.</p>
+          <p>Thank you for choosing <strong>StyleMatch</strong>.</p>
+        `;
+
+        document.getElementById('confirmationMessage').innerHTML = message;
+        document.getElementById('confirmation').style.display = 'flex';
+
+        // Show Confetti Animation
+        const confetti = document.getElementById('confettiAnimation');
+        confetti.style.display = 'block';
+        setTimeout(() => {
+          confetti.style.display = 'none';
+        }, 2000);
+        
+        // Reset form
+        document.getElementById('firstName').value = '';
+        document.getElementById('lastName').value = '';
+        document.getElementById('gender').value = '';
+        document.getElementById('mobile').value = '';
+        document.getElementById('email').value = '';
+        document.getElementById('service').value = '';
+        document.getElementById('time').value = '';
+      } else {
+        // Show error message
+        bookingError.textContent = response.message || 'Failed to book appointment. Please try again.';
+        bookingError.style.display = 'block';
+      }
+    } catch (error) {
+      // Hide spinner
+      bookingSpinner.style.display = 'none';
+      
+      console.error('Booking error:', error);
+      bookingError.textContent = 'An error occurred while booking your appointment. Please try again.';
+      bookingError.style.display = 'block';
+    }
   });
-
-  // Booking Confirmation
-  function bookAppointment() {
-  const firstName = document.getElementById('firstName').value.trim();
-  const lastName = document.getElementById('lastName').value.trim();
-  const gender = document.getElementById('gender').value;
-  const mobile = document.getElementById('mobile').value.trim();
-  const email = document.getElementById('email').value.trim();
-  const service = document.getElementById('service').value;
-  const date = `${months[monthEl.value]} ${dayEl.value}, ${yearEl.value}`;
-  const time = timeEl.value;
-
-  if (!firstName || !lastName || gender === "CHOOSE" || !mobile || !email ||
-      service === "Select Service" || time === "CHOOSE") {
-    alert("Please fill out all fields and make proper selections before booking your appointment.");
-    return;
-  }
-
-  const name = `${firstName} ${lastName}`;
-  const message = `
-    <h3>Thanks ${name}!!!</h3>
-    <p>Your appointment for <strong>${service}</strong> has been successfully confirmed!</p>
-    <p>We look forward to seeing you on <strong>${date}</strong> at <strong>${time}</strong>.</p>
-    <p>For any changes or inquiries, contact us at <strong>+1 (646) 555-7890</strong>.</p>
-    <p>Thank you for choosing <strong>StyleMatch</strong>.</p>
-  `;
-
-  document.getElementById('confirmationMessage').innerHTML = message;
-  document.getElementById('confirmation').style.display = 'flex';
-
-  // Show Confetti Animation
-  const confetti = document.getElementById('confettiAnimation');
-  confetti.style.display = 'block';
-  setTimeout(() => {
-    confetti.style.display = 'none';
-  }, 2000);
-}
-
 
   function closeOverlay() {
     document.getElementById('confirmation').style.display = 'none';
     document.getElementById('confettiAnimation').style.display = 'none';
   }
+  
+  // Check if user is logged in and pre-fill form
+  document.addEventListener('DOMContentLoaded', function() {
+    if (window.styleMatchAPI.auth.isAuthenticated()) {
+      const user = window.styleMatchAPI.auth.getCurrentUser();
+      
+      if (user) {
+        // Pre-fill form with user information
+        document.getElementById('firstName').value = user.firstName || '';
+        document.getElementById('lastName').value = user.lastName || '';
+        document.getElementById('gender').value = user.gender || '';
+        document.getElementById('mobile').value = user.mobile || '';
+        document.getElementById('email').value = user.email || '';
+      }
+    }
+  });
 </script>
 
 </body>

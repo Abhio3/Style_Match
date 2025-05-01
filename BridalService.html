@@ -410,5 +410,110 @@ setTimeout(() => {
   document.getElementById('mehndiRightPane').classList.add('show');
 }, 3000); 
   </script>
+
+  <!-- Add this right before the closing body tag -->
+<script src="js/api.js"></script>
+<script>
+  // Original bookAppointment function with modifications
+  function bookAppointment() {
+    const firstName = document.getElementById('firstName').value.trim();
+    const lastName = document.getElementById('lastName').value.trim();
+    const gender = document.getElementById('gender').value;
+    const mobile = document.getElementById('mobile').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const service = document.getElementById('service').value;
+    const startTime = document.getElementById('startTime').value.trim();
+    const startAMPM = document.getElementById('startAMPM').value;
+    const endTime = document.getElementById('endTime').value.trim();
+    const endAMPM = document.getElementById('endAMPM').value;
+    const address = document.getElementById('address').value.trim();
+    const month = document.getElementById('month').value;
+    const day = document.getElementById('day').value;
+    const year = document.getElementById('year').value;
+
+    // Validation
+    if (!firstName || !lastName) {
+      alert("Please enter your full name.");
+      return;
+    }
+    if (gender === "CHOOSE") {
+      alert("Please select your gender.");
+      return;
+    }
+    if (!mobile) {
+      alert("Please enter your mobile number.");
+      return;
+    }
+    if (!email) {
+      alert("Please enter your email.");
+      return;
+    }
+    if (service === "Select Service") {
+      alert("Please select a bridal service.");
+      return;
+    }
+    if (!startTime || !endTime) {
+      alert("Please enter both start and end time.");
+      return;
+    }
+    if (!address) {
+      alert("Please enter your address.");
+      return;
+    }
+
+    // Format date as YYYY-MM-DD for API
+    const appointmentDate = `${year}-${(parseInt(month) + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+    
+    // Create bridal service data object
+    const bridalData = {
+      firstName,
+      lastName,
+      gender,
+      mobile,
+      email,
+      service,
+      appointmentDate,
+      startTime: `${startTime} ${startAMPM}`,
+      endTime: `${endTime} ${endAMPM}`,
+      address
+    };
+    
+    // Call the bridal service API
+    window.styleMatchAPI.appointments.bookBridal(bridalData)
+      .then(response => {
+        if (response.success) {
+          // Display confirmation message using existing code
+          const name = firstName + " " + lastName;
+          const date = `${months[month]} ${day}, ${year}`;
+          const timing = `${startTime} ${startAMPM} to ${endTime} ${endAMPM}`;
+
+          const message = `
+            <h3>Thanks ${name}!!!</h3>
+            <p>Your bridal appointment for <strong>${service}</strong> has been successfully confirmed!</p>
+            <p>Scheduled on <strong>${date}</strong> from <strong>${timing}</strong>.</p>
+            <p>Address: <strong>${address}</strong></p>
+            <p>For any changes or inquiries, contact us at <strong>+91 (996)-273-4416</strong>.</p>
+            <p>Thank you for choosing <strong>StyleMatch</strong>.</p>
+          `;
+
+          document.getElementById('confirmationMessage').innerHTML = message;
+          document.getElementById('confirmation').style.display = 'flex';
+
+          // Show Confetti Animation
+          const confetti = document.getElementById('confettiAnimation');
+          confetti.style.display = 'block';
+          setTimeout(() => {
+            confetti.style.display = 'none';
+          }, 2000);
+        } else {
+          alert(response.message || 'Failed to book bridal service!');
+        }
+      })
+      .catch(error => {
+        console.error('Error booking bridal service:', error);
+        alert('An error occurred while booking your bridal service');
+      });
+  }
+</script>
 </body>
 </html>

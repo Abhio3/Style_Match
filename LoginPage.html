@@ -86,27 +86,6 @@
     text-align: center;
   }
   
-  /* .tabs {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-  }
-  
-  .tab {
-    cursor: pointer;
-    background-color: #444;
-    padding: 10px 15px;
-    border-radius: 20px;
-    color: #fff;
-    font-weight: bold;
-    font-size: 13px;
-    transition: background 0.3s;
-  }
-  
-  .tab:hover {
-    background-color: #222;
-  } */
-  
   .form-section {
     display: none;
     flex-direction: column;
@@ -270,6 +249,39 @@
     display: flex;
   }
   
+  /* Loading spinner */
+  .spinner {
+    display: none;
+    margin: 10px auto;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top: 4px solid #fff;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  .alert {
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+    display: none;
+  }
+  
+  .alert-success {
+    background-color: rgba(0, 128, 0, 0.2);
+    border: 1px solid green;
+  }
+  
+  .alert-error {
+    background-color: rgba(255, 0, 0, 0.2);
+    border: 1px solid red;
+  }
 
   </style>
 </head>
@@ -290,47 +302,50 @@
       <input type="radio" name="view" id="forgotView" hidden>
 
       <div class="form-box">
-        <!-- Tabs -->
-        <!-- <div class="tabs">
-          <label for="loginView" class="tab">Login</label>
-          <label for="signupView" class="tab">Sign Up</label>
-          <label for="forgotView" class="tab">Forgot</label>
-        </div> -->
-
         <!-- Login Form -->
         <div class="form-section login">
           <h2>LOGIN</h2>
-          <input type="email" placeholder="Email">
-          <input type="password" placeholder="Password">
+          <div class="alert alert-success" id="login-success"></div>
+          <div class="alert alert-error" id="login-error"></div>
+          <input type="email" id="login-email" placeholder="Email">
+          <input type="password" id="login-password" placeholder="Password">
           <label for="forgotView" class="link">Forgot Password?</label>
-          <button>LOGIN</button>
+          <button id="login-btn">LOGIN</button>
+          <div class="spinner" id="login-spinner"></div>
           <p class="text-center">Don't have an account? <label for="signupView" class="link">Sign Up Now</label></p>
         </div>
 
         <!-- Signup Form -->
         <div class="form-section signup">
           <h2>SIGN UP</h2>
-          <input type="text" placeholder="Name">
-          <input type="email" placeholder="Email">
-          <select>
+          <div class="alert alert-success" id="signup-success"></div>
+          <div class="alert alert-error" id="signup-error"></div>
+          <input type="text" id="signup-first-name" placeholder="First Name">
+          <input type="text" id="signup-last-name" placeholder="Last Name">
+          <input type="email" id="signup-email" placeholder="Email">
+          <select id="signup-gender">
             <option value="">Select Gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="other">Other</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
           </select>
-          
-          <input type="password" placeholder="New Password">
-          <input type="password" placeholder="Confirm Password">
-          <button>SIGN UP</button>
+          <input type="text" id="signup-mobile" placeholder="Mobile Number">
+          <input type="password" id="signup-password" placeholder="New Password">
+          <input type="password" id="signup-confirm-password" placeholder="Confirm Password">
+          <button id="signup-btn">SIGN UP</button>
+          <div class="spinner" id="signup-spinner"></div>
           <p class="text-center">Already have an account? <label for="loginView" class="link">Login</label></p>
         </div>
 
         <!-- Forgot Password Form -->
         <div class="form-section forgot">
           <h2>Reset Password</h2>
-          <p class="info">Enter your email to receive a reset link. For help, <a href="mailto:support@hairloom.com">send us an email</a>.</p>
-          <input type="email" placeholder="Enter Your Email ID Here">
-          <button>Send reset link</button>
+          <div class="alert alert-success" id="forgot-success"></div>
+          <div class="alert alert-error" id="forgot-error"></div>
+          <p class="info">Enter your email to receive a reset link.</p>
+          <input type="email" id="forgot-email" placeholder="Enter Your Email ID Here">
+          <button id="forgot-btn">Send reset link</button>
+          <div class="spinner" id="forgot-spinner"></div>
           <p class="text-center"><label for="loginView" class="link">← All login options</label></p>
         </div>
 
@@ -338,5 +353,196 @@
       </div>
     </div>
   </div>
+
+  <!-- Include the API.js script -->
+  <script src="js/api.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Check if user is already logged in
+      if (window.styleMatchAPI.auth.isAuthenticated()) {
+        const user = window.styleMatchAPI.auth.getCurrentUser();
+        if (user.role === 'admin') {
+          window.location.href = 'admin.html';
+        } else {
+          window.location.href = 'index.html';
+        }
+      }
+      
+      // Login Form
+      const loginForm = document.getElementById('login-btn');
+      const loginSpinner = document.getElementById('login-spinner');
+      const loginSuccess = document.getElementById('login-success');
+      const loginError = document.getElementById('login-error');
+      
+      loginForm.addEventListener('click', async function() {
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
+        
+        // Validation
+        if (!email || !password) {
+          loginError.textContent = 'Please enter email and password';
+          loginError.style.display = 'block';
+          return;
+        }
+        
+        // Reset messages
+        loginSuccess.style.display = 'none';
+        loginError.style.display = 'none';
+        
+        // Show spinner
+        loginSpinner.style.display = 'block';
+        
+        try {
+          // Call API
+          const response = await window.styleMatchAPI.auth.login(email, password);
+          
+          // Hide spinner
+          loginSpinner.style.display = 'none';
+          
+          if (response.success) {
+            loginSuccess.textContent = 'Login successful! Redirecting...';
+            loginSuccess.style.display = 'block';
+            
+            // Redirect based on role
+            setTimeout(() => {
+              if (response.user.role === 'admin') {
+                window.location.href = 'admin.html';
+              } else {
+                window.location.href = 'index.html';
+              }
+            }, 1000);
+          } else {
+            loginError.textContent = response.message || 'Login failed';
+            loginError.style.display = 'block';
+          }
+        } catch (error) {
+          // Hide spinner
+          loginSpinner.style.display = 'none';
+          
+          loginError.textContent = 'An error occurred. Please try again.';
+          loginError.style.display = 'block';
+          console.error('Login error:', error);
+        }
+      });
+      
+      // Signup Form
+      const signupForm = document.getElementById('signup-btn');
+      const signupSpinner = document.getElementById('signup-spinner');
+      const signupSuccess = document.getElementById('signup-success');
+      const signupError = document.getElementById('signup-error');
+      
+      signupForm.addEventListener('click', async function() {
+        const firstName = document.getElementById('signup-first-name').value;
+        const lastName = document.getElementById('signup-last-name').value;
+        const email = document.getElementById('signup-email').value;
+        const gender = document.getElementById('signup-gender').value;
+        const mobile = document.getElementById('signup-mobile').value;
+        const password = document.getElementById('signup-password').value;
+        const confirmPassword = document.getElementById('signup-confirm-password').value;
+        
+        // Validation
+        if (!firstName || !lastName || !email || !gender || !password) {
+          signupError.textContent = 'Please fill in all required fields';
+          signupError.style.display = 'block';
+          return;
+        }
+        
+        if (password !== confirmPassword) {
+          signupError.textContent = 'Passwords do not match';
+          signupError.style.display = 'block';
+          return;
+        }
+        
+        // Reset messages
+        signupSuccess.style.display = 'none';
+        signupError.style.display = 'none';
+        
+        // Show spinner
+        signupSpinner.style.display = 'block';
+        
+        try {
+          // Call API
+          const response = await window.styleMatchAPI.auth.register({
+            firstName,
+            lastName,
+            email,
+            gender,
+            mobile,
+            password
+          });
+          
+          // Hide spinner
+          signupSpinner.style.display = 'none';
+          
+          if (response.success) {
+            signupSuccess.textContent = 'Registration successful! Redirecting to login...';
+            signupSuccess.style.display = 'block';
+            
+            // Redirect to login
+            setTimeout(() => {
+              document.getElementById('loginView').checked = true;
+            }, 2000);
+          } else {
+            signupError.textContent = response.message || 'Registration failed';
+            signupError.style.display = 'block';
+          }
+        } catch (error) {
+          // Hide spinner
+          signupSpinner.style.display = 'none';
+          
+          signupError.textContent = 'An error occurred. Please try again.';
+          signupError.style.display = 'block';
+          console.error('Signup error:', error);
+        }
+      });
+      
+      // Forgot Password Form
+      const forgotForm = document.getElementById('forgot-btn');
+      const forgotSpinner = document.getElementById('forgot-spinner');
+      const forgotSuccess = document.getElementById('forgot-success');
+      const forgotError = document.getElementById('forgot-error');
+      
+      forgotForm.addEventListener('click', async function() {
+        const email = document.getElementById('forgot-email').value;
+        
+        // Validation
+        if (!email) {
+          forgotError.textContent = 'Please enter your email';
+          forgotError.style.display = 'block';
+          return;
+        }
+        
+        // Reset messages
+        forgotSuccess.style.display = 'none';
+        forgotError.style.display = 'none';
+        
+        // Show spinner
+        forgotSpinner.style.display = 'block';
+        
+        try {
+          // Call API
+          const response = await window.styleMatchAPI.auth.forgotPassword(email);
+          
+          // Hide spinner
+          forgotSpinner.style.display = 'none';
+          
+          if (response.success) {
+            forgotSuccess.textContent = 'Reset link sent to your email!';
+            forgotSuccess.style.display = 'block';
+          } else {
+            forgotError.textContent = response.message || 'Failed to send reset link';
+            forgotError.style.display = 'block';
+          }
+        } catch (error) {
+          // Hide spinner
+          forgotSpinner.style.display = 'none';
+          
+          forgotError.textContent = 'An error occurred. Please try again.';
+          forgotError.style.display = 'block';
+          console.error('Forgot password error:', error);
+        }
+      });
+    });
+  </script>
 </body>
 </html>

@@ -258,50 +258,81 @@
     </div>
 </div>
 
+<!-- Add this right before the closing body tag -->
+<script src="js/api.js"></script>
 <script>
-    const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+  const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
 
-    function confirmOrder() {
-        const firstName = document.getElementById('firstName').value.trim();
-        const lastName = document.getElementById('lastName').value.trim();
-        const gender = document.getElementById('gender').value;
-        const mobile = document.getElementById('mobile').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const address = document.getElementById('address').value.trim();
-        const paymentMethod = document.getElementById('payment').value;
+  function confirmOrder() {
+    const firstName = document.getElementById('firstName').value.trim();
+    const lastName = document.getElementById('lastName').value.trim();
+    const gender = document.getElementById('gender').value;
+    const mobile = document.getElementById('mobile').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const address = document.getElementById('address').value.trim();
+    const paymentMethod = document.getElementById('payment').value;
 
-        // Validate all fields
-        if (
-            firstName === "" ||
-            lastName === "" ||
-            gender === "CHOOSE" ||
-            mobile === "" ||
-            email === "" ||
-            address === "" ||
-            paymentMethod === "CHOOSE"
-        ) {
-            alert("Please fill out all the fields and make valid selections.");
-            return;
-        }
+    // Validate all fields
+    if (
+      firstName === "" ||
+      lastName === "" ||
+      gender === "CHOOSE" ||
+      mobile === "" ||
+      email === "" ||
+      address === "" ||
+      paymentMethod === "CHOOSE"
+    ) {
+      alert("Please fill out all the fields and make valid selections.");
+      return;
+    }
 
-        const name = firstName + " " + lastName;
-        let orderSummary = "<h3>Order Summary:</h3><ul>";
-        let totalAmount = 0;
+    // Calculate total amount
+    let totalAmount = 0;
+    cartItems.forEach(item => {
+      totalAmount += item.price * item.quantity;
+    });
 
-        cartItems.forEach(item => {
-            orderSummary += `<li>${item.name} x ${item.quantity} - ₹${item.price * item.quantity}</li>`;
-            totalAmount += item.price * item.quantity;
-        });
-        orderSummary += `</ul><p>Total Amount: ₹${totalAmount}</p>`;
+    // Create order items for API
+    const items = cartItems.map(item => ({
+      productId: item.id || 1, // If no ID, use 1 for the first product
+      quantity: item.quantity,
+      price: item.price
+    }));
 
-        if (paymentMethod === "Cash on Delivery") {
+    // Create order data object
+    const orderData = {
+      firstName,
+      lastName,
+      email,
+      mobile,
+      address,
+      paymentMethod,
+      items
+    };
+    
+    // Call the order API
+    window.styleMatchAPI.orders.createOrder(orderData)
+      .then(response => {
+        if (response.success) {
+          if (paymentMethod === "Cash on Delivery") {
+            // Display confirmation message
+            const name = firstName + " " + lastName;
+            let orderSummary = "<h3>Order Summary:</h3><ul>";
+            
+            cartItems.forEach(item => {
+              orderSummary += `<li>${item.name} x ${item.quantity} - ₹${item.price * item.quantity}</li>`;
+            });
+            
+            orderSummary += `</ul><p>Total Amount: ₹${totalAmount}</p>`;
+
             const message = `
               <h3>Hello ${name}!</h3>
               <p>Your order is confirmed.</p>
               ${orderSummary}
-             <p>You will receive your product within 2 days.</p>
-             <p>Thank you for choosing <strong>StyleMatch</strong>.</p>
-             `;
+              <p>You will receive your product within 2 days.</p>
+              <p>Thank you for choosing <strong>StyleMatch</strong>.</p>
+            `;
+            
             document.getElementById('confirmationMessage').innerHTML = message;
             document.getElementById('confirmation').style.display = 'flex';
 
@@ -309,55 +340,24 @@
             const confetti = document.getElementById('confettiAnimation');
             confetti.style.display = 'block';
             setTimeout(() => {
-                confetti.style.display = 'none';
+              confetti.style.display = 'none';
             }, 2000);
-        } else if (paymentMethod === "Online Payment") {
-            // Redirect to Paytm payment page with the total amount.
-            const paytmNumber = "9962734416";
-            const paytmUrl = `https://paytm.me/${paytmNumber}?amount=${totalAmount}`;
-            window.location.href = paytmUrl;
+            
+            // Clear cart after successful order
+            localStorage.removeItem('cartItems');
+          } else if (paymentMethod === "Online Payment" && response.data.paymentUrl) {
+            // Redirect to payment gateway
+            window.location.href = response.data.paymentUrl;
+          }
+        } else {
+          alert(response.message || 'Failed to place order!');
         }
-    }
-
-    function closeOverlay() {
-        document.getElementById('confirmation').style.display = 'none';
-        document.getElementById('confettiAnimation').style.display = 'none';
-    }
-
-    // Check if redirected back from Paytm
-    window.onload = function () {
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.has('payment') && urlParams.get('payment') === 'success') {
-            const firstName = document.getElementById('firstName').value;
-            const lastName = document.getElementById('lastName').value;
-            const name = firstName + " " + lastName;
-
-            let orderSummary = "<h3>Order Summary:</h3><ul>";
-            let totalAmount = 0;
-             cartItems.forEach(item => {
-                orderSummary += `<li>${item.name} x ${item.quantity} - ₹${item.price * item.quantity}</li>`;
-                totalAmount += item.price * item.quantity;
-            });
-            orderSummary += `</ul><p>Total Amount: ₹${totalAmount}</p>`;
-
-            const message = `
-                <h3>Hello ${name}!</h3>
-                <p>Your payment was successful.</p>
-                  ${orderSummary}
-                <p>Your order is confirmed and will be delivered within 2 days.</p>
-                <p>Thank you for choosing <strong>StyleMatch</strong>.</p>
-              `;
-            document.getElementById('confirmationMessage').innerHTML = message;
-            document.getElementById('confirmation').style.display = 'flex';
-
-            // Show Confetti Animation
-            const confetti = document.getElementById('confettiAnimation');
-            confetti.style.display = 'block';
-            setTimeout(() => {
-                confetti.style.display = 'none';
-            }, 2000);
-        }
-    };
+      })
+      .catch(error => {
+        console.error('Error placing order:', error);
+        alert('An error occurred while placing your order');
+      });
+  }
 </script>
 
 </body>

@@ -86,6 +86,157 @@
       });
     }
   </script>
+  <!-- Add this right before the closing body tag -->
+<script src="js/api.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const ordersListDiv = document.getElementById('orders-list');
+    
+    // Check if user is authenticated
+    if (window.styleMatchAPI.auth.isAuthenticated()) {
+      // Get orders from API
+      window.styleMatchAPI.orders.getUserOrders()
+        .then(response => {
+          if (response.success && response.data.length > 0) {
+            // Display orders from API
+            response.data.forEach(order => {
+              const orderDiv = document.createElement('div');
+              orderDiv.classList.add('order-container');
+              
+              let itemsList = '';
+              if (order.items && order.items.length > 0) {
+                itemsList = '<h4>Items:</h4><ul>';
+                order.items.forEach(item => {
+                  itemsList += `<li>${item.product.name} x ${item.quantity} - ₹${item.price * item.quantity}</li>`;
+                });
+                itemsList += '</ul>';
+              }
+              
+              let orderDetails = `<h3>Product Order #${order.id}</h3>`;
+              orderDetails += `<p><strong>Name:</strong> ${order.firstName} ${order.lastName}</p>`;
+              orderDetails += `<p><strong>Phone:</strong> ${order.mobile}</p>`;
+              orderDetails += `<p><strong>Address:</strong> ${order.address}</p>`;
+              orderDetails += `<p><strong>Payment Method:</strong> ${order.paymentMethod}</p>`;
+              orderDetails += `<p><strong>Payment Status:</strong> ${order.paymentStatus}</p>`;
+              orderDetails += `<p><strong>Order Status:</strong> ${order.orderStatus}</p>`;
+              orderDetails += itemsList;
+              orderDetails += `<p><strong>Total Amount:</strong> ₹${order.totalAmount}</p>`;
+              orderDetails += `<p><strong>Order Date:</strong> ${new Date(order.createdAt).toLocaleDateString()}</p>`;
+              
+              orderDiv.innerHTML = orderDetails;
+              ordersListDiv.appendChild(orderDiv);
+            });
+          } else {
+            // Try to load appointments
+            window.styleMatchAPI.appointments.getUserAppointments()
+              .then(apptResponse => {
+                if (apptResponse.success) {
+                  const appointments = apptResponse.data.appointments || [];
+                  const bridalServices = apptResponse.data.bridalServices || [];
+                  
+                  if (appointments.length > 0 || bridalServices.length > 0) {
+                    // Display appointments
+                    appointments.forEach(appt => {
+                      const apptDiv = document.createElement('div');
+                      apptDiv.classList.add('order-container');
+                      
+                      let apptDetails = `<h3>Regular Appointment #${appt.id}</h3>`;
+                      apptDetails += `<p><strong>Name:</strong> ${appt.firstName} ${appt.lastName}</p>`;
+                      apptDetails += `<p><strong>Phone:</strong> ${appt.mobile}</p>`;
+                      apptDetails += `<p><strong>Service:</strong> ${appt.service}</p>`;
+                      apptDetails += `<p><strong>Date:</strong> ${new Date(appt.appointmentDate).toLocaleDateString()}</p>`;
+                      apptDetails += `<p><strong>Time:</strong> ${appt.appointmentTime}</p>`;
+                      apptDetails += `<p><strong>Status:</strong> ${appt.status}</p>`;
+                      
+                      apptDiv.innerHTML = apptDetails;
+                      ordersListDiv.appendChild(apptDiv);
+                    });
+                    
+                    // Display bridal services
+                    bridalServices.forEach(bridal => {
+                      const bridalDiv = document.createElement('div');
+                      bridalDiv.classList.add('order-container');
+                      
+                      let bridalDetails = `<h3>Bridal Service #${bridal.id}</h3>`;
+                      bridalDetails += `<p><strong>Name:</strong> ${bridal.firstName} ${bridal.lastName}</p>`;
+                      bridalDetails += `<p><strong>Phone:</strong> ${bridal.mobile}</p>`;
+                      bridalDetails += `<p><strong>Service:</strong> ${bridal.service}</p>`;
+                      bridalDetails += `<p><strong>Date:</strong> ${new Date(bridal.appointmentDate).toLocaleDateString()}</p>`;
+                      bridalDetails += `<p><strong>Time:</strong> ${bridal.startTime} to ${bridal.endTime}</p>`;
+                      bridalDetails += `<p><strong>Address:</strong> ${bridal.address}</p>`;
+                      bridalDetails += `<p><strong>Status:</strong> ${bridal.status}</p>`;
+                      
+                      bridalDiv.innerHTML = bridalDetails;
+                      ordersListDiv.appendChild(bridalDiv);
+                    });
+                  } else {
+                    ordersListDiv.innerHTML = '<p>No orders or appointments yet.</p>';
+                  }
+                } else {
+                  // Fallback to localStorage
+                  displayLocalOrders();
+                }
+              })
+              .catch(error => {
+                console.error('Error fetching appointments:', error);
+                // Fallback to localStorage
+                displayLocalOrders();
+              });
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching orders:', error);
+          // Fallback to localStorage
+          displayLocalOrders();
+        });
+    } else {
+      // Not authenticated, use localStorage
+      displayLocalOrders();
+    }
+    
+    // Function to display orders from localStorage
+    function displayLocalOrders() {
+      const orders = JSON.parse(localStorage.getItem('styleMatchOrders')) || [];
+      
+      if (orders.length === 0) {
+        ordersListDiv.innerHTML = '<p>No orders yet.</p>';
+      } else {
+        orders.forEach(order => {
+          const orderDiv = document.createElement('div');
+          orderDiv.classList.add('order-container');
+          
+          let orderDetails = `<h3>${order.type}</h3>`;
+          orderDetails += `<p><strong>Name:</strong> ${order.name}</p>`;
+          orderDetails += `<p><strong>Phone:</strong> ${order.mobile}</p>`;
+          
+          if (order.service) {
+            orderDetails += `<p><strong>Service:</strong> ${order.service}</p>`;
+            if (order.date && order.time) {
+              orderDetails += `<p><strong>Date:</strong> ${order.date}</p>`;
+              orderDetails += `<p><strong>Time:</strong> ${order.time}</p>`;
+            }
+            if (order.address) {
+              orderDetails += `<p><strong>Address:</strong> ${order.address}</p>`;
+            }
+          } else if (order.paymentMethod) {
+            orderDetails += `<p><strong>Payment Method:</strong> ${order.paymentMethod}</p>`;
+            if (order.items && order.items.length > 0) {
+              orderDetails += '<h4>Items:</h4><ul>';
+              order.items.forEach(item => {
+                orderDetails += `<li>${item.name} x ${item.quantity} - ₹${item.price * item.quantity}</li>`;
+              });
+              orderDetails += '</ul>';
+              orderDetails += `<p><strong>Total Amount:</strong> ₹${order.totalAmount || 'N/A'}</p>`;
+            }
+          }
+          
+          orderDiv.innerHTML = orderDetails;
+          ordersListDiv.appendChild(orderDiv);
+        });
+      }
+    }
+  });
+</script>
 
 </body>
 </html>
