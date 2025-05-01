@@ -9,10 +9,19 @@ const adminRoutes = require('./routes/adminRoutes');
 
 const app = express();
 
-// Middleware
-app.use(cors());
+// CORS configuration - UPDATED
+app.use(cors({
+  origin: ['http://127.0.0.1:5500', 'http://localhost:5500', 'http://localhost:3000'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+// Other middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Serve static files
+app.use(express.static('public'));
 
 // Routes
 app.use('/api/auth', authRoutes);
@@ -24,9 +33,6 @@ app.use('/api/admin', adminRoutes);
 app.get('/', (req, res) => {
   res.send('StyleMatch API is running');
 });
-
-// Serve static files (if needed)
-app.use(express.static('public'));
 
 // Error handling middleware
 app.use((err, req, res, next) => {

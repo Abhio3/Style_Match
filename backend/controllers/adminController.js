@@ -292,6 +292,18 @@ exports.deleteProduct = async (req, res, next) => {
       });
     }
 
+    // Check if product is used in any order
+    const orderItems = await OrderItem.findOne({
+      where: { productId: req.params.id }
+    });
+
+    if (orderItems) {
+      return res.status(400).json({
+        success: false,
+        message: 'Cannot delete product that is referenced in orders. Consider updating the stock to 0 instead.'
+      });
+    }
+
     await product.destroy();
 
     res.status(200).json({
@@ -299,6 +311,11 @@ exports.deleteProduct = async (req, res, next) => {
       message: 'Product deleted successfully'
     });
   } catch (error) {
-    next(error);
+    console.error('Error in deleteProduct:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to delete product',
+      error: error.message
+    });
   }
 };
