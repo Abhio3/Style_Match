@@ -29,7 +29,7 @@ This is the backend implementation for the StyleMatch Salon website. It provides
 1. Clone the repository:
    ```bash
    git clone https://github.com/yourusername/stylematch-backend.git
-   cd stylematch-backend
+   cd backend
    ```
 
 2. Install dependencies:
